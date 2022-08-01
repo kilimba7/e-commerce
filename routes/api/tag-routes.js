@@ -3,9 +3,10 @@ const { Tag, Product, ProductTag } = require('../../models');
 
 // The `/api/tags` endpoint
 
+// find all tags including their associated Product data
 router.get('/', (req, res) => {
-  // find all tags including their associated Product data
   Tag.findAll({
+    attributes: ['id', 'tag_name'],
     include: [
       {
         model: Product,
@@ -20,16 +21,17 @@ router.get('/', (req, res) => {
   })
 });
 
+// find a single tag by its `id` and product data
 router.get('/:id', (req, res) => {
-  // find a single tag by its `id` and product data
   Tag.findOne({
     where: {
       id: req.params.id
     },
+    attributes: ['id', 'tag_name'],
     include: [
       {
-        model: ProductTag,
-        attributes: ['product_id', 'tag_id']
+        model: Product,
+        attributes: ['product_name', 'price', 'stock', 'category_id']
       }
     ]
   })
@@ -38,6 +40,7 @@ router.get('/:id', (req, res) => {
       res.status(404).json({message: 'No tags with this id were found'});
       return;
     }
+    res.json(dbTagData);
   })
   .catch(err => {
     console.log(err);
@@ -45,8 +48,8 @@ router.get('/:id', (req, res) => {
   })
 });
 
+// create a new tag
 router.post('/', (req, res) => {
-  // create a new tag
   Tag.create({
     tag_name: req.body.tag_name
   })
@@ -57,9 +60,9 @@ router.post('/', (req, res) => {
   })
 });
 
+// update a tag's name by its `id` value
 router.put('/:id', (req, res) => {
-  // update a tag's name by its `id` value
-  Tag.updated(req.body, {
+  Tag.update(req.body, {
     where: {
       id: req.params.id
     }
@@ -69,6 +72,7 @@ router.put('/:id', (req, res) => {
       res.status(404).json({message: 'No tag with this id was found'});
       return;
     }
+    res.json(dbTagData);
   })
   .catch(err => {
     console.log(err);
@@ -76,8 +80,8 @@ router.put('/:id', (req, res) => {
   })
 });
 
+// delete on tag by its `id` value
 router.delete('/:id', (req, res) => {
-  // delete on tag by its `id` value
   Tag.destroy({
     where: {
       id: req.params.id
@@ -88,6 +92,7 @@ router.delete('/:id', (req, res) => {
       res.status(404).json({message: 'No tag found with this id'});
       return;
     }
+    res.json(dbTagData);
   })
   .catch(err => {
     console.log(err);
