@@ -19,7 +19,9 @@
   You'll need MySQL2 and Sequelize
 
   ## Usage
-  Link to demo: 
+  Link to demo: https://drive.google.com/file/d/1k_CLq7sOQ13wH_edlxez9eL12kbLaNkj/view
+
+                https://drive.google.com/file/d/1TLQvR2F9zYdml8fd58oaGtmBz5vcfEIJ/view
 
   ## License
   No license used: https://choosealicense.com/no-permission/
